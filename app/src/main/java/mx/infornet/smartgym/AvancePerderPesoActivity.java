@@ -176,6 +176,8 @@ public class AvancePerderPesoActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    Log.w(TAG, "JSON: " +json_save );
+
                     progressBar.setVisibility(View.VISIBLE);
 
                     request = new JsonObjectRequest(Request.Method.POST, Config.POST_PERDER_PESO_URL, json_save, new Response.Listener<JSONObject>() {

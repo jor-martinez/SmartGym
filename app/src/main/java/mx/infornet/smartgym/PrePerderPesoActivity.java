@@ -177,7 +177,7 @@ public class PrePerderPesoActivity extends AppCompatActivity {
                                         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ID_PENDING_AVANCE, in, PendingIntent.FLAG_UPDATE_CURRENT);
 
                                         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
+                                        //7*1440*60000
                                         Log.w(TAG, "alarma iniciada tiempo: 1");
                                         am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 7*1440*60000, pendingIntent);
 

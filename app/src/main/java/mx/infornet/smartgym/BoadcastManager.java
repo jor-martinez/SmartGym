@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 
 public class BoadcastManager extends BroadcastReceiver {
 
+    private static final String TAG = "BroadcastManager";
     private int idNotify = 1;
     private String channelId = "my_channel_01";
     private NotificationCompat.Builder mBuilder;
@@ -22,8 +23,8 @@ public class BoadcastManager extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Toast.makeText(context, "Alarma cada 15 min", Toast.LENGTH_LONG).show();
-        Log.d("alarma", "cada 15 min");
+        //Toast.makeText(context, "Alarma cada 15 min", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "cada día");
 
         NotificationManager manager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);

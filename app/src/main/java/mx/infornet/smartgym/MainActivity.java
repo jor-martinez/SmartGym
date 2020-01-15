@@ -241,15 +241,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             boolean alarmUP = (PendingIntent.getBroadcast(getApplicationContext(), ID_PENDING, new Intent(getApplicationContext(), BoadcastManager.class), PendingIntent.FLAG_NO_CREATE) != null);
 
             if (alarmUP){
-                Log.d("EXI_ALARM", "Alarma YA activada");
+                Log.d(TAG, "Dias restantes: Alarma YA activada");
             } else {
                 Intent in = new Intent(getApplicationContext(), BoadcastManager.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ID_PENDING, in, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-                Log.d("alarma", "alarma iniciada");
-                am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+                Log.d(TAG, "Dias restantes: alarma iniciada");
+                am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             }
         } else {
 
