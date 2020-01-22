@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
+    android:background="@color/azulmaterial"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/aviso"
+        android:tint="@color/azulTextmaterial"
+        app:srcCompat="@mipmap/info_icon" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView7"
+        android:layout_centerHorizontal="true"
+        android:text="@string/aviso"
+        android:textColor="@color/azulTextmaterial"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/mensaje_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView27"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/error"
+        android:textColor="@color/colorSecundary"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/neutral_btn_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/cancelar"
+        android:textColor="@color/azulTextmaterial"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/positive_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="end"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/ok"
+        android:textColor="@color/azulTextmaterial"
+        android:textSize="16sp" />
+
+</RelativeLayout>
