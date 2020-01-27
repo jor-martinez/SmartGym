@@ -53,6 +53,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONArray;
@@ -129,14 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         int frasetrue = intent.getIntExtra("frase", 0);
 
-        if (frasetrue==1){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ShowFrase();
-                }
-            }, 3000);
-        }
 
         queue = Volley.newRequestQueue(getApplicationContext());
         //queue_obj = Volley.newRequestQueue(getApplicationContext());
@@ -170,6 +163,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         db.close();
 
         Log.d("token", token);
+
+        if (frasetrue==1){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ShowFrase();
+                    ShowPromosEventos();
+                }
+            }, 3000);
+
+
+
+        }
 
 
         request_pago = new StringRequest(Request.Method.GET, Config.GET_PAGO_CURRENT_URL, new Response.Listener<String>() {
@@ -785,6 +791,101 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.setCancelable(false);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
+
+    }
+
+    public void ShowPromosEventos(){
+
+        StringRequest request = new StringRequest(Request.Method.GET, Config.GET_PROMOS_EVENTOS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONArray eventosOPromos = new JSONArray(response);
+
+                    Log.d(TAG, "Response Eventos: " + eventosOPromos);
+
+                    if (!eventosOPromos.toString().equals("[]")){
+
+                        for (int i=0; i<eventosOPromos.length(); i++){
+
+                            JSONObject item = eventosOPromos.getJSONObject(i);
+
+                            final Dialog ejemplo = new Dialog(MainActivity.this);
+
+                            ejemplo.setCancelable(false);
+                            ejemplo.setContentView(R.layout.promos_eventos_layout);
+                            ImageButton close = ejemplo.findViewById(R.id.btn_close_promo_evento);
+                            TextView titulo = ejemplo.findViewById(R.id.tv_title_promo_evento);
+                            TextView descripcion = ejemplo.findViewById(R.id.tv_descr_promo_evento);
+                            ImageView imagenPromoEvento = ejemplo.findViewById(R.id.iv_promo_evento);
+
+                            String nombreImagen = item.getString("imagen");
+
+                            titulo.setText(item.getString("nombre"));
+                            descripcion.setText(item.getString("descripcion"));
+
+                            Picasso.get()
+                                    .load(Config.IMAGEN_PROMO_EVENTO + nombreImagen)
+                                    .into(imagenPromoEvento);
+
+                            close.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ejemplo.dismiss();
+                                }
+                            });
+
+                            ejemplo.show();
+
+                        }
+
+                    }
+
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(),
+                            "Oops. Timeout error!",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                NetworkResponse networkResponse = error.networkResponse;
+
+                if (networkResponse != null && networkResponse.data != null) {
+                    String jsonError = new String(networkResponse.data);
+                    try {
+                        JSONObject jsonObjectError = new JSONObject(jsonError);
+                        Log.e(TAG, "Error eventos: " + jsonObjectError.toString());
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token_type + " " + token);
+                return headers;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
 
     }
 

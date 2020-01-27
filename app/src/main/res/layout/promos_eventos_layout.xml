@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="400dp"
+    android:background="@color/colorSecundary"
+    android:layout_height="400dp">
+
+    <ImageButton
+        android:id="@+id/btn_close_promo_evento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@android:string/cancel"
+        app:srcCompat="@android:drawable/btn_dialog"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btn_close_promo_evento">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_title_promo_evento"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="@color/colorAccent"
+                android:text="@string/cargando"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/tv_descr_promo_evento"
+                android:text="@string/cargando"
+                android:textColor="@color/colorAccent"
+                android:layout_marginBottom="8dp"/>
+
+            <ImageView
+                android:contentDescription="@string/loading_login"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/iv_promo_evento"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
