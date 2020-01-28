@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@mipmap/fondorutinas"
+        android:background="@mipmap/fondorutinasgym"
         app:elevation="10dp">
 
 

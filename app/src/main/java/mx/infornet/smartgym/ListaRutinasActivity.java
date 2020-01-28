@@ -38,6 +38,7 @@ import java.util.Map;
 
 public class ListaRutinasActivity extends AppCompatActivity {
 
+    private static final String TAG = "ListaRutinasActivity";
     private ImageView btn_back;
     private TextView error, tvcurrPag;
     private ProgressBar progressBar;
@@ -61,15 +62,10 @@ public class ListaRutinasActivity extends AppCompatActivity {
         error = findViewById(R.id.txt_error_lista_rutinas);
         error.setVisibility(View.GONE);
         anterior = findViewById(R.id.anterior_lista_rutinas);
-        anterior.setVisibility(View.GONE);
         siguiente = findViewById(R.id.siguiente_lista_rutinas);
-        siguiente.setVisibility(View.GONE);
         tvcurrPag = findViewById(R.id.tv_current_pag_lista_rutinas);
-        tvcurrPag.setVisibility(View.GONE);
         primer = findViewById(R.id.primero_lista_rutinas);
-        primer.setVisibility(View.GONE);
         ultimo = findViewById(R.id.ultimo_lista_rutinas);
-        ultimo.setVisibility(View.GONE);
 
         paginacion = findViewById(R.id.paginacion_layout);
         paginacion.setVisibility(View.GONE);
@@ -127,30 +123,21 @@ public class ListaRutinasActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
 
                     JSONObject pagination = jsonObject.getJSONObject("pagination");
-                    JSONArray array = jsonObject.getJSONArray("data");
+                    //JSONArray array = jsonObject.getJSONArray("data");
 
                     //se toman los datos de la paginacion para su posterior uso
                     currentPag = pagination.getInt("current_page");
                     numPaginas = pagination.getInt("last_page");
                     totalData = pagination.getInt("total");
 
-                    //Log.d("paginacion", pagination.toString());
+                    Log.d(TAG, "Paginacion: " + pagination.toString());
 
                     if (totalData <= 0){
                         error.setVisibility(View.VISIBLE);
                         error.setText(R.string.errorrutinasgym);
-                        /*anterior.setVisibility(View.GONE);
-                        siguiente.setVisibility(View.GONE);
-                        tvcurrPag.setVisibility(View.GONE);
-                        primer.setVisibility(View.GONE);
-                        ultimo.setVisibility(View.GONE);*/
                     } else {
-                        /*anterior.setVisibility(View.VISIBLE);
-                        siguiente.setVisibility(View.VISIBLE);
-                        tvcurrPag.setVisibility(View.VISIBLE);
-                        primer.setVisibility(View.VISIBLE);
-                        ultimo.setVisibility(View.VISIBLE);*/
                         GetRutinas(currentPag);
+
                     }
 
                     //GetRutinas(currentPag);
@@ -184,8 +171,6 @@ public class ListaRutinasActivity extends AppCompatActivity {
         };
 
         queue.add(request);
-
-
 
 
         siguiente.setOnClickListener(new View.OnClickListener() {
@@ -261,32 +246,26 @@ public class ListaRutinasActivity extends AppCompatActivity {
 
                     JSONArray array = jsonObject.getJSONArray("data");
 
-                    Log.d("datos", array.toString());
+                    Log.d(TAG, "datos" + array.toString());
 
-                    if (array.toString().equals("[]")) {
-                        error.setVisibility(View.VISIBLE);
-                        error.setText(R.string.errorrutinasgym);
-                    } else {
+                    paginacion.setVisibility(View.VISIBLE);
 
-                        paginacion.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject rutina = array.getJSONObject(i);
+                        rutinasList.add(i, new Rutinas(
+                                rutina.getInt("id"),
+                                rutina.getString("nombre"),
+                                rutina.getString("descripcion")
+                        ));
 
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject rutina = array.getJSONObject(i);
-                            rutinasList.add(i, new Rutinas(
-                                    rutina.getInt("id"),
-                                    rutina.getString("nombre"),
-                                    rutina.getString("descripcion")
-                            ));
-
-                        }
-
-                        Adapter adapterlista = new Adapter(getApplicationContext(), rutinasList);
-                        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
-                        llm.setOrientation(LinearLayoutManager.VERTICAL);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setLayoutManager(llm);
-                        recyclerView.setAdapter(adapterlista);
                     }
+
+                    Adapter adapterlista = new Adapter(getApplicationContext(), rutinasList);
+                    LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(llm);
+                    recyclerView.setAdapter(adapterlista);
 
                 }catch (JSONException e) {
                     e.printStackTrace();

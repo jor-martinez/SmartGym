@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
 
@@ -130,12 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         int frasetrue = intent.getIntExtra("frase", 0);
 
-
         queue = Volley.newRequestQueue(getApplicationContext());
         //queue_obj = Volley.newRequestQueue(getApplicationContext());
         //queue_save_perder_peso = Volley.newRequestQueue(getApplicationContext());
         queue_pago = Volley.newRequestQueue(getApplicationContext());
-
 
         ConexionSQLiteHelper  conn = new ConexionSQLiteHelper(getApplicationContext(), "usuarios", null, 4);
         SQLiteDatabase db = conn.getWritableDatabase();
@@ -165,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("token", token);
 
         if (frasetrue==1){
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -172,8 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     ShowPromosEventos();
                 }
             }, 3000);
-
-
 
         }
 
@@ -342,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 Toast.LENGTH_LONG).show();
                     }
 
+
                     NetworkResponse networkResponse = error.networkResponse;
 
                     if (networkResponse != null && networkResponse.data != null) {
@@ -355,7 +352,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             e.printStackTrace();
                         }
                     }
-
                 }
             }){
                 @Override
@@ -385,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         fecha_termino = registro.getString("created_at");
                         int tiempo = registro.getInt("tiempo");
-
 
                         Calendar cal = Calendar.getInstance();
                         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());

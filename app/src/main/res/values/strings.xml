@@ -49,7 +49,7 @@
     <string name="mensajeRestablecer">Ingresa tu email</string>
     <string name="aplicarcambios">Aplicar cambios</string>
     <string name="misrutinas">Mis rutinas</string>
-    <string name="todasrutinas">Lista de rutinas</string>
+    <string name="todasrutinas">Rutinas del gimnasio</string>
     <string name="erroralimentacion">No tienes planes de alimentacion. Acercate con tu entrenador</string>
     <string name="errorrutinas">No hay rutinas agregadas</string>
     <string name="errorrutinasgym">El gimnasio no tiene rutinas agregadas, acercate con tu entrenador</string>
