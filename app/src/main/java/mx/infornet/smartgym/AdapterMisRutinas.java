@@ -69,6 +69,7 @@ public class AdapterMisRutinas extends RecyclerView.Adapter<AdapterMisRutinas.Ru
                     String descRutina = rutinasList.get(requestCode).getDescripcion();
 
                     Intent intent = new Intent(mContext, VerRutinaMiembroActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("id", idRutina);
                     intent.putExtra("nombre", nombreRutina);
                     intent.putExtra("descripcion", descRutina);

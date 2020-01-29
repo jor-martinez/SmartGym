@@ -165,87 +165,92 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/cont_buttons"
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_centerInParent="true">
 
-            <RelativeLayout
-                android:id="@+id/btn_to_rutinas"
+            <LinearLayout
+                android:id="@+id/cont_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_btn_rutinas"
-                android:clickable="true">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <RelativeLayout
+                    android:id="@+id/btn_to_rutinas"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_btn_rutinas"
+                    android:clickable="true">
 
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/rutinas"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="36sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/rutinas"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="36sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/btn_to_alimentacion"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_btn_alimen"
-                android:clickable="true">
+                <RelativeLayout
+                    android:id="@+id/btn_to_alimentacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_btn_alimen"
+                    android:clickable="true">
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/alimentacion"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="36sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/alimentacion"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="36sp"
+                        android:textStyle="bold" />
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/btn_to_progreso"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_btn_progreso"
-                android:clickable="true">
+                <RelativeLayout
+                    android:id="@+id/btn_to_progreso"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_btn_progreso"
+                    android:clickable="true">
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/progreso"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="36sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/progreso"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="36sp"
+                        android:textStyle="bold" />
 
-            </RelativeLayout>
+                </RelativeLayout>
 
 
+            </LinearLayout>
 
-        </LinearLayout>
-
-    </ScrollView>
-
+        </ScrollView>
+    </RelativeLayout>
 
 
 </LinearLayout>

@@ -72,6 +72,7 @@ public class AdapterAlimentacion extends RecyclerView.Adapter<AdapterAlimentacio
                     String descRutina = alimentacionList.get(requestCode).getDescripcion();
 
                     Intent intentVerRutina = new Intent(mCtx, VerAlimentacionActivity.class);
+                    intentVerRutina.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intentVerRutina.putExtra("id", idRutina);
                     intentVerRutina.putExtra("nombre", nombreRutina);
                     intentVerRutina.putExtra("descripcion", descRutina);
