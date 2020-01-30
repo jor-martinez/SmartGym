@@ -73,6 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
@@ -806,35 +807,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             JSONObject item = eventosOPromos.getJSONObject(i);
 
-                            final Dialog ejemplo = new Dialog(MainActivity.this);
+                            String fechaInicioEP = item.getString("fecha_inicio");
+                            String fechaFinEP = item.getString("fecha_fin");
 
-                            ejemplo.setCancelable(false);
-                            ejemplo.setContentView(R.layout.promos_eventos_layout);
-                            ImageButton close = ejemplo.findViewById(R.id.btn_close_promo_evento);
-                            TextView titulo = ejemplo.findViewById(R.id.tv_title_promo_evento);
-                            TextView descripcion = ejemplo.findViewById(R.id.tv_descr_promo_evento);
-                            ImageView imagenPromoEvento = ejemplo.findViewById(R.id.iv_promo_evento);
+                            //se obtiene la fecha actual en milisegundos
+                            long fechaActual = System.currentTimeMillis();
 
-                            String nombreImagen = item.getString("imagen");
+                            //se obtiene el Calendar de las fechas del evento o promocion
+                            Calendar cal = Calendar.getInstance();
+                            Calendar cal2 = Calendar.getInstance();
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-                            titulo.setText(item.getString("nombre"));
-                            descripcion.setText(item.getString("descripcion"));
+                            try {
+                                cal.setTime(Objects.requireNonNull(simpleDateFormat.parse(fechaInicioEP)));
+                                cal2.setTime(Objects.requireNonNull(simpleDateFormat.parse(fechaFinEP)));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
 
-                            Picasso.get()
-                                    .load(Config.IMAGEN_PROMO_EVENTO + nombreImagen)
-                                    .into(imagenPromoEvento);
+                            //fecha inicio en milisegundos
+                            long fechaInicioMili = cal.getTimeInMillis();
 
-                            close.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ejemplo.dismiss();
-                                }
-                            });
+                            //fecha final en milisegundos
+                            long fechaFinMili = cal2.getTimeInMillis();
 
-                            ejemplo.show();
+                            if (fechaInicioMili < fechaActual && fechaFinMili > fechaActual){
 
+                                final Dialog ejemplo = new Dialog(MainActivity.this);
+                                ejemplo.setCancelable(false);
+                                ejemplo.setContentView(R.layout.promos_eventos_layout);
+                                ImageButton close = ejemplo.findViewById(R.id.btn_close_promo_evento);
+                                TextView titulo = ejemplo.findViewById(R.id.tv_title_promo_evento);
+                                TextView descripcion = ejemplo.findViewById(R.id.tv_descr_promo_evento);
+                                ImageView imagenPromoEvento = ejemplo.findViewById(R.id.iv_promo_evento);
+
+                                String nombreImagen = item.getString("imagen");
+
+                                titulo.setText(item.getString("nombre"));
+                                descripcion.setText(item.getString("descripcion"));
+
+                                Picasso.get()
+                                        .load(Config.IMAGEN_PROMO_EVENTO + nombreImagen)
+                                        .into(imagenPromoEvento);
+
+                                close.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        ejemplo.dismiss();
+                                    }
+                                });
+                                ejemplo.show();
+                            }
                         }
-
+                    } else {
+                        //Toast.makeText(context, "No hay eventos", Toast.LENGTH_SHORT).show();
                     }
 
 

@@ -145,7 +145,7 @@ public class EditarPasswordFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     loading.show();
-
+                    dialog.dismiss();
                     request = new StringRequest(Request.Method.POST, Config.EDIT_PASSWORD_URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
