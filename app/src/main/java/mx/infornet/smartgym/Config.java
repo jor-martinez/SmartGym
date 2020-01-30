@@ -42,4 +42,8 @@ public class Config {
 
     public static final String GET_PAGO_CURRENT_URL = "https://smartgym.infornet.mx/api/miembro/pagos/actual";
 
+    public static final String GET_PROMOS_EVENTOS = "https://smartgym.infornet.mx/api/miembro/promociones-eventos";
+
+    public static final String IMAGEN_PROMO_EVENTO = "https://smartgym.infornet.mx/assets/images/promociones_eventos/";
+
 }

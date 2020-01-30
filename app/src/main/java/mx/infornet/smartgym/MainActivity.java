@@ -53,6 +53,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONArray;
@@ -72,6 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
@@ -114,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
 
@@ -129,20 +130,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         int frasetrue = intent.getIntExtra("frase", 0);
 
-        if (frasetrue==1){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ShowFrase();
-                }
-            }, 3000);
-        }
-
         queue = Volley.newRequestQueue(getApplicationContext());
         //queue_obj = Volley.newRequestQueue(getApplicationContext());
         //queue_save_perder_peso = Volley.newRequestQueue(getApplicationContext());
         queue_pago = Volley.newRequestQueue(getApplicationContext());
-
 
         ConexionSQLiteHelper  conn = new ConexionSQLiteHelper(getApplicationContext(), "usuarios", null, 4);
         SQLiteDatabase db = conn.getWritableDatabase();
@@ -170,6 +161,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         db.close();
 
         Log.d("token", token);
+
+        if (frasetrue==1){
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ShowFrase();
+                    ShowPromosEventos();
+                }
+            }, 3000);
+
+        }
 
 
         request_pago = new StringRequest(Request.Method.GET, Config.GET_PAGO_CURRENT_URL, new Response.Listener<String>() {
@@ -336,6 +339,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 Toast.LENGTH_LONG).show();
                     }
 
+
                     NetworkResponse networkResponse = error.networkResponse;
 
                     if (networkResponse != null && networkResponse.data != null) {
@@ -349,7 +353,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             e.printStackTrace();
                         }
                     }
-
                 }
             }){
                 @Override
@@ -379,7 +382,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         fecha_termino = registro.getString("created_at");
                         int tiempo = registro.getInt("tiempo");
-
 
                         Calendar cal = Calendar.getInstance();
                         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -785,6 +787,126 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.setCancelable(false);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
+
+    }
+
+    public void ShowPromosEventos(){
+
+        StringRequest request = new StringRequest(Request.Method.GET, Config.GET_PROMOS_EVENTOS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONArray eventosOPromos = new JSONArray(response);
+
+                    Log.d(TAG, "Response Eventos: " + eventosOPromos);
+
+                    if (!eventosOPromos.toString().equals("[]")){
+
+                        for (int i=0; i<eventosOPromos.length(); i++){
+
+                            JSONObject item = eventosOPromos.getJSONObject(i);
+
+                            String fechaInicioEP = item.getString("fecha_inicio");
+                            String fechaFinEP = item.getString("fecha_fin");
+
+                            //se obtiene la fecha actual en milisegundos
+                            long fechaActual = System.currentTimeMillis();
+
+                            //se obtiene el Calendar de las fechas del evento o promocion
+                            Calendar cal = Calendar.getInstance();
+                            Calendar cal2 = Calendar.getInstance();
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+                            try {
+                                cal.setTime(Objects.requireNonNull(simpleDateFormat.parse(fechaInicioEP)));
+                                cal2.setTime(Objects.requireNonNull(simpleDateFormat.parse(fechaFinEP)));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            //fecha inicio en milisegundos
+                            long fechaInicioMili = cal.getTimeInMillis();
+
+                            //fecha final en milisegundos
+                            long fechaFinMili = cal2.getTimeInMillis();
+
+                            if (fechaInicioMili < fechaActual && fechaFinMili > fechaActual){
+
+                                final Dialog ejemplo = new Dialog(MainActivity.this);
+                                ejemplo.setCancelable(false);
+                                ejemplo.setContentView(R.layout.promos_eventos_layout);
+                                ImageButton close = ejemplo.findViewById(R.id.btn_close_promo_evento);
+                                TextView titulo = ejemplo.findViewById(R.id.tv_title_promo_evento);
+                                TextView descripcion = ejemplo.findViewById(R.id.tv_descr_promo_evento);
+                                ImageView imagenPromoEvento = ejemplo.findViewById(R.id.iv_promo_evento);
+
+                                String nombreImagen = item.getString("imagen");
+
+                                titulo.setText(item.getString("nombre"));
+                                descripcion.setText(item.getString("descripcion"));
+
+                                Picasso.get()
+                                        .load(Config.IMAGEN_PROMO_EVENTO + nombreImagen)
+                                        .into(imagenPromoEvento);
+
+                                close.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        ejemplo.dismiss();
+                                    }
+                                });
+                                ejemplo.show();
+                            }
+                        }
+                    } else {
+                        //Toast.makeText(context, "No hay eventos", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(),
+                            "Oops. Timeout error!",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                NetworkResponse networkResponse = error.networkResponse;
+
+                if (networkResponse != null && networkResponse.data != null) {
+                    String jsonError = new String(networkResponse.data);
+                    try {
+                        JSONObject jsonObjectError = new JSONObject(jsonError);
+                        Log.e(TAG, "Error eventos: " + jsonObjectError.toString());
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token_type + " " + token);
+                return headers;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
 
     }
 

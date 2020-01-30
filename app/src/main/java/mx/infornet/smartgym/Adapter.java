@@ -76,6 +76,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RutinaViewHolder>{
                     //int autorRutina = rutinasList.get(requestCode).getIdCoach();
 
                     Intent intentVerRutina = new Intent(mCtx, VerRutinaListaActivity.class);
+                    intentVerRutina.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intentVerRutina.putExtra("id", idRutina);
                     intentVerRutina.putExtra("nombre", nombreRutina);
                     intentVerRutina.putExtra("descripcion", descRutina);

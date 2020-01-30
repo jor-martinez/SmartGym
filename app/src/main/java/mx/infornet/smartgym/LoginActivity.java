@@ -197,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                     } else {
                                                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                                        i.putExtra("frase", 1);
                                                         startActivity(i);
                                                         LoginActivity.this.finish();
                                                     }
@@ -240,6 +241,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                     } else {
                                                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                                        i.putExtra("frase", 1);
                                                         startActivity(i);
                                                         LoginActivity.this.finish();
                                                     }
